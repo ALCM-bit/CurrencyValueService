@@ -13,11 +13,9 @@ namespace CoinValue.Services
     {
         public async Task<DataFormat> GetCurenci(string currencyAbbreviation)
         {
-            //string date = Uri.EscapeDataString(DateTime.Now.ToString("dd-MM-yyyy"));
             
-
-            string currency = Uri.EscapeUriString(currencyAbbreviation);
-            string date = Uri.EscapeUriString(DateTime.Now.ToString("dd-MM-yyyy"));
+            string currency = currencyAbbreviation;
+            string date = DateTime.Now.ToString("MM-dd-yyyy");
             string uri = $"https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaDia(moeda=@moeda,dataCotacao=@dataCotacao)?@moeda='{currency}'&@dataCotacao='{date}'&$top=100&$orderby=dataHoraCotacao%20desc&$format=json&$select=cotacaoCompra,cotacaoVenda,dataHoraCotacao";
 
             HttpClient client = new HttpClient();
@@ -27,6 +25,20 @@ namespace CoinValue.Services
             var currencyData = JsonConvert.DeserializeObject<ResponseFormat>(content);
 
             return currencyData.value[0];
+        }
+
+        public async Task<List<DataFormat>> GetAllCurenci()
+        {
+            string[] curencies = {"EUR", "USD", "AUD"};
+            List<DataFormat> data = new List<DataFormat>();
+
+            foreach (string currencyAbbreviation in curencies)
+            {
+               DataFormat currencyData = await GetCurenci(currencyAbbreviation);
+               data.Add(currencyData);
+            }
+
+            return data;
         }
     }
 }

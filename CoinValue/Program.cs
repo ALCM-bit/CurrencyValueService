@@ -2,6 +2,9 @@
 
 RequestCentralBankAPIService request = new RequestCentralBankAPIService();
 
-var result = await request.GetCurenci("EUR");
+var result = await request.GetAllCurenci();
 
-Console.WriteLine(result.cotacaoCompra);
+foreach (var curenci in result)
+{
+    Console.WriteLine($"{curenci.cotacaoVenda}, {curenci.cotacaoCompra}, {curenci.dataHoraCotacao}");
+}
