@@ -1,10 +1,23 @@
-AUD,Dólar australiano,0,0,
-CAD,Dólar canadense,0,0,
-CHF,Franco suíço,0,0,
-DKK,Coroa dinamarquesa,0,0,
-EUR,Euro,0,0,
-GBP,Libra Esterlina,0,0,
-JPY,Iene,0,0,
-NOK,Coroa norueguesa,0,0,
-SEK,Coroa sueca,0,0,
-USD,Dólar dos Estados Unidos,0,0,
+Caso os valores apareçam como 0 significa que não há nenhuma atualização no dia de hoje.Caso a informação persistir entre em contato com o suporte
+-----------------------------------------------------------------------------
+Simbolo | Nome Formatado | Valor Compra | Valor Venda | Data e Hora da Cotação
+AUD - Dólar australiano  | 0 | 0 | 
+
+CAD - Dólar canadense  | 0 | 0 | 
+
+CHF - Franco suíço  | 0 | 0 | 
+
+DKK - Coroa dinamarquesa  | 0 | 0 | 
+
+EUR - Euro  | 0 | 0 | 
+
+GBP - Libra Esterlina  | 0 | 0 | 
+
+JPY - Iene  | 0 | 0 | 
+
+NOK - Coroa norueguesa  | 0 | 0 | 
+
+SEK - Coroa sueca  | 0 | 0 | 
+
+USD - Dólar dos Estados Unidos  | 0 | 0 | 
+
