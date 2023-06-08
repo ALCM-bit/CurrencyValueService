@@ -10,5 +10,7 @@ namespace CoinValue.Interfaces.Services
     public interface IRequestCentralBankAPIService
     {
         Task<DataFormat> GetCurenci(string currencyAbbreviation);
+        Task<List<DataFormat>> GetCurrencyAbbreviations();
+        Task<List<DataFormat>> GetAllCurenci();
     }
 }

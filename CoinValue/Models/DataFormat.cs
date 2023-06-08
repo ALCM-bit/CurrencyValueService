@@ -8,6 +8,8 @@ namespace CoinValue.Models
 {
     public class DataFormat
     {
+        public string simbolo { get; set; }
+        public string nomeFormatado { get; set; }
         public double cotacaoCompra { get; set; }
         public double cotacaoVenda { get; set; }
         public string dataHoraCotacao { get; set; } = String.Empty;
