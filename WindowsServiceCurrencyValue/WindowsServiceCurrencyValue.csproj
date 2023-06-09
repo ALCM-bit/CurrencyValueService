@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\DirectoryHelper.cs" />
     <Compile Include="Interfaces\Services\IRequestCentralBankAPIService.cs" />
     <Compile Include="Interfaces\Services\ITxtMaker.cs" />
     <Compile Include="Models\DataFormat.cs" />

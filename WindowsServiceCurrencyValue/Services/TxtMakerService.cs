@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WindowsServiceCurrencyValue.Helpers;
 using WindowsServiceCurrencyValue.Interfaces.Services;
 using WindowsServiceCurrencyValue.Models;
 
@@ -17,11 +18,9 @@ namespace WindowsServiceCurrencyValue.Services
             try
             {
                 string path = AppDomain.CurrentDomain.BaseDirectory + "\\Logs";
+                DirectoryHelper.CreateDirectoryIfNotExists(path);
                 string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs", $"ServiceLog_{DateTime.Now.Date.ToShortDateString().Replace('/', '-')}.txt");
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
+   
                 using (StreamWriter writer = new StreamWriter(filePath, false))
                 {
                     string important = "Caso os valores apareçam como 0 significa que não há nenhuma atualização no dia de hoje." +
@@ -44,7 +43,9 @@ namespace WindowsServiceCurrencyValue.Services
             catch (Exception ex)
             {
                 string path = AppDomain.CurrentDomain.BaseDirectory + "\\LogsErrors";
-                string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs", $"ServiceLog_{DateTime.Now.Date.ToShortDateString().Replace('/', '-')} Error.txt");
+                DirectoryHelper.CreateDirectoryIfNotExists(path);
+                string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LogsErrors", $"ServiceLog_{DateTime.Now.Date.ToShortDateString().Replace('/', '-')} Error.txt");
+                CreateDirectory( path );
                 using (StreamWriter writer = new StreamWriter(filePath, false))
                 {
                     writer.WriteLine("O programa parou de funcionar em: " + DateTime.Now.ToString());
@@ -59,10 +60,21 @@ namespace WindowsServiceCurrencyValue.Services
 
         }
 
+        public void CreateDirectory(string directoryPath)
+        {
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+        }
+
         public void WriteStopMessage()
         {
-            string FilePath = $"C:\\ws-workspace\\Desafio_MXM\\CoinValueService\\{DateTime.Now.Date.ToShortDateString().Replace('/', '-')} Stoped.txt";
-            using (StreamWriter writer = new StreamWriter(FilePath, false))
+            string path = AppDomain.CurrentDomain.BaseDirectory + "\\StopLogs";
+            DirectoryHelper.CreateDirectoryIfNotExists(path);
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "StopLogs", $"ServiceLog_{DateTime.Now.Date.ToShortDateString().Replace('/', '-')}.txt");
+            using (StreamWriter writer = new StreamWriter(filePath, false))
             {
                 writer.WriteLine("O serviço parou de funcionar" + DateTime.Now.ToString());
                 writer.WriteLine("-----------------------------------------------------------------");
