@@ -26,24 +26,33 @@ namespace WindowsServiceCurrencyValue
             InitializeComponent();  
         }
 
-        protected override async void OnStart(string[] args)
+        protected override void OnStart(string[] args)
         {
-            var data = await _apiService.GetAllCurenci();
-            _maker.WriteData(data);
-            timer.Elapsed += new ElapsedEventHandler(OnElapsedTime);
-            timer.Interval = 5000; //número em milisegundos
-            timer.Enabled = true;
+            Task.Run(async () =>
+            {
+                var data = await _apiService.GetAllCurenci();
+                await _maker.WriteData(data);
+                timer.Elapsed += new ElapsedEventHandler(OnElapsedTime);
+                timer.Interval = 7000; // número em milissegundos
+                timer.Enabled = true;
+            });
         }
 
         protected override void OnStop()
         {
-            _maker.WriteStopMessage();
+            Task.Run(async () => {
+               await _maker.WriteStopMessage();
+            });
+            
         }
 
-        private async void OnElapsedTime(object source, ElapsedEventArgs e)
+        private void OnElapsedTime(object source, ElapsedEventArgs e)
         {
-            var data = await _apiService.GetAllCurenci();
-            _maker.WriteData(data);
+            Task.Run(async () => {
+                var data = await _apiService.GetAllCurenci();
+                await _maker.WriteData(data);
+            });
+            
         }
     }
 }
