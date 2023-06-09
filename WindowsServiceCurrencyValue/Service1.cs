@@ -38,11 +38,11 @@ namespace WindowsServiceCurrencyValue
             });
         }
 
-        protected override void OnStop()
+        protected override async void  OnStop()
         {
-            Task.Run(async () => {
-               await _maker.WriteStopMessage();
-            });
+            
+             await _maker.WriteStopMessage();
+            
             
         }
 

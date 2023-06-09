@@ -44,8 +44,7 @@ namespace WindowsServiceCurrencyValue.Services
             {
                 string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LogsErrors");
                 DirectoryHelper.CreateDirectoryIfNotExists(path);
-                string filePath = Path.Combine(path, $"ServiceLog_{DateTime.Now.Date.ToShortDateString().Replace('/', '-')} Error.txt");
-                CreateDirectory(path);
+                string filePath = Path.Combine(path, $"ServiceLog_{DateTime.Now.Date.ToShortDateString().Replace('/', '-')} Error.txt");;
                 using (StreamWriter writer = new StreamWriter(filePath, false))
                 {
                     await writer.WriteLineAsync("O programa parou de funcionar em: " + DateTime.Now.ToString());
@@ -56,15 +55,6 @@ namespace WindowsServiceCurrencyValue.Services
                     await writer.WriteAsync(ex.Message);
                 }
             }
-        }
-
-        public void CreateDirectory(string directoryPath)
-        {
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-
         }
 
         public async Task WriteStopMessage()
