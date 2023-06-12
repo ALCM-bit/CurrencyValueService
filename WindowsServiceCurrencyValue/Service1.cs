@@ -28,14 +28,10 @@ namespace WindowsServiceCurrencyValue
 
         protected override void OnStart(string[] args)
         {
-            Task.Run(async () =>
-            {
-                var data = await _apiService.GetAllCurenci();
-                await _maker.WriteData(data);
                 timer.Elapsed += new ElapsedEventHandler(OnElapsedTime);
                 timer.Interval = 7000; // número em milissegundos
                 timer.Enabled = true;
-            });
+            
         }
 
         protected override async void  OnStop()

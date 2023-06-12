@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,9 +18,9 @@ namespace WindowsServiceCurrencyValue.Services
         {
             try
             {
-                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cotações");
                 DirectoryHelper.CreateDirectoryIfNotExists(path);
-                string filePath = Path.Combine(path, $"ServiceLog_{DateTime.Now.Date.ToShortDateString().Replace('/', '-')}.txt");
+                string filePath = Path.Combine(path, $"Cotação de {DateTime.Now.Date.ToShortDateString().Replace('/', '-')}.txt");
 
                 using (StreamWriter writer = new StreamWriter(filePath, false))
                 {
@@ -42,26 +43,15 @@ namespace WindowsServiceCurrencyValue.Services
             }
             catch (Exception ex)
             {
-                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LogsErrors");
-                DirectoryHelper.CreateDirectoryIfNotExists(path);
-                string filePath = Path.Combine(path, $"ServiceLog_{DateTime.Now.Date.ToShortDateString().Replace('/', '-')} Error.txt");;
-                using (StreamWriter writer = new StreamWriter(filePath, false))
-                {
-                    await writer.WriteLineAsync("O programa parou de funcionar em: " + DateTime.Now.ToString());
-                    await writer.WriteLineAsync("");
-                    await writer.WriteLineAsync("--------------------------------------");
-                    await writer.WriteLineAsync("");
-                    await writer.WriteLineAsync("PROBLEMA: ");
-                    await writer.WriteAsync(ex.Message);
-                }
+                Log.Error(ex, "Erro ao gravar os dados no arquivo");
             }
         }
 
         public async Task WriteStopMessage()
         {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "StopLogs");
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "StopAlerts");
             DirectoryHelper.CreateDirectoryIfNotExists(path);
-            string filePath = Path.Combine(path, $"ServiceLog_{DateTime.Now.Date.ToShortDateString().Replace('/', '-')}.txt");
+            string filePath = Path.Combine(path, $" Parada registrada {DateTime.Now.Date.ToShortDateString().Replace('/', '-')}.txt");
             using (StreamWriter writer = new StreamWriter(filePath, false))
             {
                 await writer.WriteLineAsync("O serviço parou de funcionar" + DateTime.Now.ToString());
