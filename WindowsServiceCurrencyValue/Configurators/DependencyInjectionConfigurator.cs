@@ -23,9 +23,8 @@ namespace WindowsServiceCurrencyValue.Configurators
             // Configurar o AutoMapper
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<CentralBankApiAbbreviationResponseDTO, AbbreviationDTO>().ReverseMap();
-                cfg.CreateMap<CentralBankApiValueResponseDTO, CurrencyDTO>().ReverseMap();
-                cfg.CreateMap<CurrencyCompleteDTO, Currency>().ReverseMap();
+                cfg.CreateMap<AbbreviationDTO, Currency>().ReverseMap();
+                cfg.CreateMap<CurrencyDTO,Currency>().ReverseMap();
             });
             var mapper = mapperConfiguration.CreateMapper();
             services.AddSingleton(mapper);
@@ -34,7 +33,7 @@ namespace WindowsServiceCurrencyValue.Configurators
             {
                 var txtMaker = serviceProvider.GetRequiredService<ITxtMaker>();
                 var apiService = serviceProvider.GetRequiredService<IRequestCentralBankAPIService>();
-                return new Service1(txtMaker, apiService, mapper);
+                return new Service1(txtMaker, apiService);
             });
         }
 

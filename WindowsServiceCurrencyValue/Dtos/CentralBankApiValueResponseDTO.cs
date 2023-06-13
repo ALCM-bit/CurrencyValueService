@@ -8,6 +8,6 @@ namespace WindowsServiceCurrencyValue.Dtos
 {
     public class CentralBankApiValueResponseDTO
     {
-        public List<CurrencyCompleteDTO> Value { get; set; }
+        public List<CurrencyDTO> Value { get; set; }
     }
 }

@@ -20,11 +20,9 @@ namespace WindowsServiceCurrencyValue
         Timer timer = new Timer();
         private readonly ITxtMaker _maker;
         private readonly IRequestCentralBankAPIService _apiService;
-        private readonly IMapper _mapper;
 
-        public Service1(ITxtMaker maker, IRequestCentralBankAPIService apiService, IMapper mapper)
+        public Service1(ITxtMaker maker, IRequestCentralBankAPIService apiService)
         {
-            _mapper = mapper;
             _maker = maker;
             _apiService = apiService;
             InitializeComponent();  
@@ -50,7 +48,7 @@ namespace WindowsServiceCurrencyValue
         {
             Task.Run(async () => {
                 var data = await _apiService.GetAllCurenci();
-                await _maker.WriteData(_mapper.Map<List<Currency>>(data));
+                await _maker.WriteData(data);
             });
             
         }

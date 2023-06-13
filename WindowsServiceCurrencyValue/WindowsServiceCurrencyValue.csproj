@@ -110,13 +110,11 @@
     <Compile Include="Dtos\AbbreviationDTO.cs" />
     <Compile Include="Dtos\CentralBankApiAbbreviationResponseDTO.cs" />
     <Compile Include="Dtos\CentralBankApiValueResponseDTO.cs" />
-    <Compile Include="Dtos\CurrencyCompleteDTO.cs" />
     <Compile Include="Dtos\CurrencyDTO.cs" />
     <Compile Include="Helpers\DirectoryHelper.cs" />
     <Compile Include="Interfaces\Services\IRequestCentralBankAPIService.cs" />
     <Compile Include="Interfaces\Services\ITxtMaker.cs" />
     <Compile Include="Models\Currency.cs" />
-    <Compile Include="Models\ResponseFormat.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
