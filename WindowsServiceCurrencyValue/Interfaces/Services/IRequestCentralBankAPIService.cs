@@ -10,8 +10,8 @@ namespace WindowsServiceCurrencyValue.Interfaces.Services
 {
     public interface IRequestCentralBankAPIService
     {
-        Task<CurrencyDTO> GetCurenci(string currencyAbbreviation);
-        Task<List<CurrencyDTO>> GetCurrencyAbbreviations();
-        Task<List<CurrencyDTO>> GetAllCurenci();
+        Task<CurrencyCompleteDTO> GetCurenci(string currencyAbbreviation);
+        Task<List<AbbreviationDTO>> GetCurrencyAbbreviations();
+        Task<List<CurrencyCompleteDTO>> GetAllCurenci();
     }
 }

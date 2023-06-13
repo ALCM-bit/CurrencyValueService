@@ -107,7 +107,10 @@
   <ItemGroup>
     <Compile Include="Configurators\DependencyInjectionConfigurator.cs" />
     <Compile Include="Configurators\LogsConfigurator.cs" />
-    <Compile Include="Dtos\CentralBankApiResponseDTO.cs" />
+    <Compile Include="Dtos\AbbreviationDTO.cs" />
+    <Compile Include="Dtos\CentralBankApiAbbreviationResponseDTO.cs" />
+    <Compile Include="Dtos\CentralBankApiValueResponseDTO.cs" />
+    <Compile Include="Dtos\CurrencyCompleteDTO.cs" />
     <Compile Include="Dtos\CurrencyDTO.cs" />
     <Compile Include="Helpers\DirectoryHelper.cs" />
     <Compile Include="Interfaces\Services\IRequestCentralBankAPIService.cs" />

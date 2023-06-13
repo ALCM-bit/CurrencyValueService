@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace WindowsServiceCurrencyValue.Dtos
 {
-    public class CentralBankApiResponseDTO
+    public class AbbreviationDTO
     {
-        public List<CurrencyDTO> Value { get; set; }
+        public string Simbolo { get; set; }
+        public string NomeFormatado { get; set; }
     }
 }

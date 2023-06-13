@@ -13,7 +13,7 @@ namespace WindowsServiceCurrencyValue.Services
 {
     public class RequestCentralBankAPIService: IRequestCentralBankAPIService
     {
-        public async Task<CurrencyDTO> GetCurenci(string currencyAbbreviation)
+        public async Task<CurrencyCompleteDTO> GetCurenci(string currencyAbbreviation)
         {
 
             string currency = currencyAbbreviation;
@@ -24,7 +24,7 @@ namespace WindowsServiceCurrencyValue.Services
             var request = await client.GetAsync(uri);
             var content = await request.Content.ReadAsStringAsync();
 
-            var currencyData = JsonConvert.DeserializeObject<CentralBankApiResponseDTO>(content);
+            var currencyData = JsonConvert.DeserializeObject<CentralBankApiValueResponseDTO>(content);
 
             if (currencyData.Value.Count > 0)
             {
@@ -32,11 +32,11 @@ namespace WindowsServiceCurrencyValue.Services
             }
             else
             {
-                return new CurrencyDTO { CotacaoCompra = 0, CotacaoVenda = 0 };
+                return new CurrencyCompleteDTO { CotacaoCompra = 0, CotacaoVenda = 0 };
             }
         }
 
-        public async Task<List<CurrencyDTO>> GetCurrencyAbbreviations()
+        public async Task<List<AbbreviationDTO>> GetCurrencyAbbreviations()
         {
             string uri = "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas?$top=100&$format=json&$select=simbolo,nomeFormatado,tipoMoeda";
 
@@ -44,25 +44,28 @@ namespace WindowsServiceCurrencyValue.Services
             var response = await client.GetAsync(uri);
             var content = await response.Content.ReadAsStringAsync();
 
-            var currencyData = JsonConvert.DeserializeObject<CentralBankApiResponseDTO>(content);
+            var currencyData = JsonConvert.DeserializeObject<CentralBankApiAbbreviationResponseDTO>(content);
             var abbreviations = currencyData.Value;
 
             return abbreviations;
         }
-        public async Task<List<CurrencyDTO>> GetAllCurenci()
+        public async Task<List<CurrencyCompleteDTO>> GetAllCurenci()
         {
-            var currencyData = await GetCurrencyAbbreviations();
+            var abbreviations = await GetCurrencyAbbreviations();
 
+            var data = new List<CurrencyCompleteDTO>();
 
-            foreach (CurrencyDTO abbreviation in currencyData)
+            foreach (AbbreviationDTO abbreviation in abbreviations)
             {
-                CurrencyDTO currencyValues = await GetCurenci(abbreviation.Simbolo);
-                abbreviation.CotacaoCompra = currencyValues.CotacaoCompra;
-                abbreviation.CotacaoVenda = currencyValues.CotacaoVenda;
-                abbreviation.DataHoraCotacao = currencyValues.DataHoraCotacao;
+                CurrencyCompleteDTO currencyValues = await GetCurenci(abbreviation.Simbolo);
+                data.Add(new CurrencyCompleteDTO 
+                {
+                    Simbolo = abbreviation.Simbolo, NomeFormatado = abbreviation.NomeFormatado,
+                    CotacaoCompra = currencyValues.CotacaoCompra, CotacaoVenda=currencyValues.CotacaoVenda, DataHoraCotacao = currencyValues.DataHoraCotacao,
+                });
             }
 
-            return currencyData;
+            return data;
         }
     }
 }

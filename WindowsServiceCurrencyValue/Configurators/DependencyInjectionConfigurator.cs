@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using WindowsServiceCurrencyValue.Dtos;
@@ -22,7 +23,9 @@ namespace WindowsServiceCurrencyValue.Configurators
             // Configurar o AutoMapper
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<CurrencyDTO, Currency>().ReverseMap();
+                cfg.CreateMap<CentralBankApiAbbreviationResponseDTO, AbbreviationDTO>().ReverseMap();
+                cfg.CreateMap<CentralBankApiValueResponseDTO, CurrencyDTO>().ReverseMap();
+                cfg.CreateMap<CurrencyCompleteDTO, Currency>().ReverseMap();
             });
             var mapper = mapperConfiguration.CreateMapper();
             services.AddSingleton(mapper);
