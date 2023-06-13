@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ using WindowsServiceCurrencyValue.Models;
 
 namespace WindowsServiceCurrencyValue.Services
 {
-    public class RequestCentralBankAPIService: IRequestCentralBankAPIService
+    public class RequestCentralBankAPIService : IRequestCentralBankAPIService
     {
         private readonly IMapper _mapper;
         public RequestCentralBankAPIService(IMapper mapper)
@@ -30,11 +31,13 @@ namespace WindowsServiceCurrencyValue.Services
             var request = await client.GetAsync(uri);
             var content = await request.Content.ReadAsStringAsync();
 
-            var currencyData = JsonConvert.DeserializeObject<CentralBankApiValueResponseDTO>(content);
+            var jsonObject = JsonConvert.DeserializeObject<JObject>(content);
+            var currencyArray = jsonObject["value"].ToObject<JArray>();
 
-            if (currencyData.Value.Count > 0)
+            if (currencyArray.Count > 0)
             {
-                return currencyData.Value[0];
+                var firstCurrency = currencyArray[0].ToObject<CurrencyDTO>();
+                return firstCurrency;
             }
             else
             {
@@ -50,9 +53,10 @@ namespace WindowsServiceCurrencyValue.Services
             var response = await client.GetAsync(uri);
             var content = await response.Content.ReadAsStringAsync();
 
-            var currencyData = JsonConvert.DeserializeObject<CentralBankApiAbbreviationResponseDTO>(content);
-            var abbreviations = currencyData.Value;
-
+            var jsonObject = JsonConvert.DeserializeObject<JObject>(content);
+            var currencyArray = jsonObject["value"].ToObject<JArray>();
+            var abbreviations = currencyArray.ToObject<List<AbbreviationDTO>>();
+          
             return abbreviations;
         }
         public async Task<List<Currency>> GetAllCurenci()
