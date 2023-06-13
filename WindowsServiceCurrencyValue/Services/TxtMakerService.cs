@@ -14,7 +14,7 @@ namespace WindowsServiceCurrencyValue.Services
     public class TxtMakerService : ITxtMaker
     {
 
-        public async Task WriteData(List<DataFormat> data)
+        public async Task WriteData(List<Currency> data)
         {
             try
             {
@@ -31,10 +31,10 @@ namespace WindowsServiceCurrencyValue.Services
                     await writer.WriteLineAsync("Ultima pesquisa: " + DateTime.Now.ToString());
                     string header = "Simbolo | Nome Formatado | Valor Compra | Valor Venda | Data e Hora da Cotação";
                     await writer.WriteLineAsync(header);
-                    foreach (DataFormat item in data)
+                    foreach (Currency item in data)
                     {
-                        string line = $"{item.simbolo} - {item.nomeFormatado}  | {item.cotacaoCompra}" +
-                            $" | {item.cotacaoVenda} | {item.dataHoraCotacao}";
+                        string line = $"{item.Simbolo} - {item.NomeFormatado}  | {item.CotacaoCompra}" +
+                            $" | {item.CotacaoVenda} | {item.DataHoraCotacao}";
                         await writer.WriteLineAsync(line);
                         await writer.WriteLineAsync("");
                     }

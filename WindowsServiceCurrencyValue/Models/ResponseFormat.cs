@@ -8,6 +8,6 @@ namespace WindowsServiceCurrencyValue.Models
 {
     public class ResponseFormat
     {
-        public List<DataFormat> value { get; set; }
+        public List<Currency> value { get; set; }
     }
 }

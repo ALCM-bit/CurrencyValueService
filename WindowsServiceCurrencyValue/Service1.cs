@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using WindowsServiceCurrencyValue.Interfaces.Services;
 using System.Timers;
 using System.IO;
+using AutoMapper;
+using WindowsServiceCurrencyValue.Models;
 
 namespace WindowsServiceCurrencyValue
 {
@@ -18,9 +20,11 @@ namespace WindowsServiceCurrencyValue
         Timer timer = new Timer();
         private readonly ITxtMaker _maker;
         private readonly IRequestCentralBankAPIService _apiService;
+        private readonly IMapper _mapper;
 
-        public Service1(ITxtMaker maker, IRequestCentralBankAPIService apiService)
+        public Service1(ITxtMaker maker, IRequestCentralBankAPIService apiService, IMapper mapper)
         {
+            _mapper = mapper;
             _maker = maker;
             _apiService = apiService;
             InitializeComponent();  
@@ -46,7 +50,7 @@ namespace WindowsServiceCurrencyValue
         {
             Task.Run(async () => {
                 var data = await _apiService.GetAllCurenci();
-                await _maker.WriteData(data);
+                await _maker.WriteData(_mapper.Map<List<Currency>>(data));
             });
             
         }
