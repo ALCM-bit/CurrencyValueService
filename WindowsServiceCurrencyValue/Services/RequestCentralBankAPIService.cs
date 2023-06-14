@@ -32,11 +32,11 @@ namespace WindowsServiceCurrencyValue.Services
             var content = await request.Content.ReadAsStringAsync();
 
             var jsonObject = JsonConvert.DeserializeObject<JObject>(content);
-            var currencyArray = jsonObject["value"].ToObject<JArray>();
+            var currencyArray = jsonObject["value"].ToObject<List<CurrencyDTO>>();
 
             if (currencyArray.Count > 0)
             {
-                var firstCurrency = currencyArray[0].ToObject<CurrencyDTO>();
+                var firstCurrency = currencyArray[0];
                 return firstCurrency;
             }
             else
@@ -54,8 +54,7 @@ namespace WindowsServiceCurrencyValue.Services
             var content = await response.Content.ReadAsStringAsync();
 
             var jsonObject = JsonConvert.DeserializeObject<JObject>(content);
-            var currencyArray = jsonObject["value"].ToObject<JArray>();
-            var abbreviations = currencyArray.ToObject<List<AbbreviationDTO>>();
+            var abbreviations = jsonObject["value"].ToObject<List<AbbreviationDTO>>();
           
             return abbreviations;
         }
