@@ -11,7 +11,7 @@ namespace WindowsServiceCurrencyValue.Services
     public class ExecuteWithExceptionHandlingService : IExecuteWithExceptionHandlingService
     {
 
-        public async Task<T> ExecuteWithExceptionHandling<T>(Func<Task<T>> function, T defaultValue) 
+        public async Task<T> RequestCentralBanckAPIServiceExecuteWithExceptionHandling<T>(Func<Task<T>> function, T defaultValue) 
         {
             try
             {
@@ -24,6 +24,18 @@ namespace WindowsServiceCurrencyValue.Services
             }
         }
 
-       
+        public async Task TxtMakerServiceExecuteWithExceptionHandling(Func<Task> function)
+        {
+            try
+            {
+                await function();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"Error: {ex.Message}");
+            }
+        }
+
+
     }
 }

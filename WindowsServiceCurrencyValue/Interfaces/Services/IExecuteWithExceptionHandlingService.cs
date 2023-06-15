@@ -8,6 +8,7 @@ namespace WindowsServiceCurrencyValue.Interfaces.Services
 {
     public interface IExecuteWithExceptionHandlingService
     {
-        Task<T> ExecuteWithExceptionHandling<T>(Func<Task<T>> function, T defaultValue);
+        Task<T> RequestCentralBanckAPIServiceExecuteWithExceptionHandling<T>(Func<Task<T>> function, T defaultValue);
+        Task TxtMakerServiceExecuteWithExceptionHandling(Func<Task> function);
     }
 }

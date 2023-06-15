@@ -25,7 +25,7 @@ namespace WindowsServiceCurrencyValue.Services
         }
         public async Task<CurrencyDTO> GetCurenci(string currencyAbbreviation)
         {
-            var result = await _exceptionHandlingService.RequestServiceExecuteWithExceptionHandling<CurrencyDTO>(async () =>
+            var result = await _exceptionHandlingService.RequestCentralBanckAPIServiceExecuteWithExceptionHandling<CurrencyDTO>(async () =>
             {
                 string currency = currencyAbbreviation;
                 string date = DateTime.Now.ToString("MM-dd-yyyy");
@@ -55,7 +55,7 @@ namespace WindowsServiceCurrencyValue.Services
         public async Task<List<AbbreviationDTO>> GetCurrencyAbbreviations()
         {
 
-            var result = await _exceptionHandlingService.RequestServiceExecuteWithExceptionHandling<List<AbbreviationDTO>>(async() =>
+            var result = await _exceptionHandlingService.RequestCentralBanckAPIServiceExecuteWithExceptionHandling<List<AbbreviationDTO>>(async() =>
             {
 
             
