@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace WindowsServiceCurrencyValue.Services
         }
         public async Task<CurrencyDTO> GetCurenci(string currencyAbbreviation)
         {
-            var result = await _exceptionHandlingService.RequestCentralBanckAPIServiceExecuteWithExceptionHandling<CurrencyDTO>(async () =>
+            try
             {
                 string currency = currencyAbbreviation;
                 string date = DateTime.Now.ToString("MM-dd-yyyy");
@@ -47,19 +48,21 @@ namespace WindowsServiceCurrencyValue.Services
                 {
                     return new CurrencyDTO { CotacaoCompra = 0, CotacaoVenda = 0 };
                 }
-            }, new CurrencyDTO { CotacaoCompra = 0, CotacaoVenda = 0 });
 
-            return result;
+            }
+            catch(Exception ex)
+            {
+                Log.Error(ex, $"Problema ao acessar o EndPoint. Error: {ex.Message}");
+                return new CurrencyDTO { CotacaoCompra = 0, CotacaoVenda = 0 };
+            }
+                
+           
         }
 
         public async Task<List<AbbreviationDTO>> GetCurrencyAbbreviations()
         {
-
-            var result = await _exceptionHandlingService.RequestCentralBanckAPIServiceExecuteWithExceptionHandling<List<AbbreviationDTO>>(async() =>
+            try
             {
-
-            
-
                 string uri = "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas?$top=100&$format=json&$select=simbolo,nomeFormatado,tipoMoeda";
 
                 HttpClient client = new HttpClient();
@@ -70,9 +73,15 @@ namespace WindowsServiceCurrencyValue.Services
                 var abbreviations = jsonObject["value"].ToObject<List<AbbreviationDTO>>();
 
                 return abbreviations;
-            }, new List<AbbreviationDTO>() { new AbbreviationDTO { Simbolo = "EUR", NomeFormatado = "Euro" } });
+            }
+            catch(Exception ex)
+            {
+                Log.Error(ex, $"Problema ao acessar o EndPoint das Abreviações. Error: {ex.Message}");
+                return new List<AbbreviationDTO>();
+            }
 
-            return result;
+                
+            
             
         }
         public async Task<List<Currency>> GetAllCurenci()

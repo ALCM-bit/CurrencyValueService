@@ -14,7 +14,7 @@ namespace WindowsServiceCurrencyValue.Configurators
 {
     public class LogsConfigurator
     {
-        public static void ConfigureLogging(IServiceCollection services)
+        public static void Configure(IServiceCollection services)
         {
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.File(AppDomain.CurrentDomain.BaseDirectory + "Logs/ServiceLog_.txt", rollingInterval: RollingInterval.Day)

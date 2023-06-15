@@ -15,20 +15,11 @@ namespace WindowsServiceCurrencyValue.Configurators
 {
     public class DependencyInjectionConfigurator
     {
-        public static void ConfigureDependencyInjection(IServiceCollection services)
+        public static void Configure(IServiceCollection services)
         {
             services.AddTransient<ITxtMaker, TxtMakerService>();
             services.AddTransient<IRequestCentralBankAPIService, RequestCentralBankAPIService>();
-            services.AddScoped<IExecuteWithExceptionHandlingService, ExecuteWithExceptionHandlingService>();
-
-            // Configurar o AutoMapper
-            var mapperConfiguration = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<AbbreviationDTO, Currency>().ReverseMap();
-                cfg.CreateMap<CurrencyDTO,Currency>().ReverseMap();
-            });
-            var mapper = mapperConfiguration.CreateMapper();
-            services.AddSingleton(mapper);
+            
 
             services.AddSingleton<Service1>(serviceProvider =>
             {

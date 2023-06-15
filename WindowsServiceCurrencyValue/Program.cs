@@ -22,10 +22,13 @@ namespace WindowsServiceCurrencyValue
             var services = new ServiceCollection();
 
             // Configurar os logs
-            LogsConfigurator.ConfigureLogging(services);
+            LogsConfigurator.Configure(services);
 
             // Configurar as dependências
-            DependencyInjectionConfigurator.ConfigureDependencyInjection(services);
+            DependencyInjectionConfigurator.Configure(services);
+
+            //Configurar AutoMapper
+            AutoMapperConfigurator.Configure(services);
 
             var serviceProvider = services.BuildServiceProvider();
 

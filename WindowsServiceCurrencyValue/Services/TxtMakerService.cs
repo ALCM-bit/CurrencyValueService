@@ -22,7 +22,7 @@ namespace WindowsServiceCurrencyValue.Services
 
         public async Task WriteData(List<Currency> data)
         {
-            await _exceptionHandlingService.TxtMakerServiceExecuteWithExceptionHandling(async () =>
+            try
             {
                 string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cotações");
                 DirectoryHelper.CreateDirectoryIfNotExists(path);
@@ -45,12 +45,18 @@ namespace WindowsServiceCurrencyValue.Services
                         await writer.WriteLineAsync("");
                     }
                 }
-            });
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"Problema ao gravar as Cotações. Error: {ex.Message}");
+            }
+           
         }
 
         public async Task WriteStopMessage()
         {
-            await _exceptionHandlingService.TxtMakerServiceExecuteWithExceptionHandling(async() =>
+            try
             {
                 string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "StopAlerts");
                 DirectoryHelper.CreateDirectoryIfNotExists(path);
@@ -65,7 +71,11 @@ namespace WindowsServiceCurrencyValue.Services
                     await writer.WriteLineAsync("-----------------------------------------------------------------");
                 }
 
-            });
+            }
+            catch(Exception ex)
+            {
+                Log.Error(ex, $"Problema ao Gravar o arquivo de parada. Error: {ex.Message}");
+            }
             
         }
     }
