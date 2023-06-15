@@ -18,11 +18,11 @@ namespace WindowsServiceCurrencyValue.Services
     public class RequestCentralBankAPIService : IRequestCentralBankAPIService
     {
         private readonly IMapper _mapper;
-        private readonly IExecuteWithExceptionHandlingService _exceptionHandlingService;
-        public RequestCentralBankAPIService(IMapper mapper, IExecuteWithExceptionHandlingService executeWithExceptionHandlingService)
+        private readonly ITxtMaker _textMaker;
+        public RequestCentralBankAPIService(IMapper mapper, ITxtMaker maker)
         {
             _mapper = mapper;
-            _exceptionHandlingService = executeWithExceptionHandlingService;
+            _textMaker = maker;
         }
         public async Task<CurrencyDTO> GetCurenci(string currencyAbbreviation)
         {
@@ -50,11 +50,12 @@ namespace WindowsServiceCurrencyValue.Services
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Log.Error(ex, $"Problema ao acessar o EndPoint. Error: {ex.Message}");
+                Log.Error(ex, $"Problema ao acessar o EndPoint responsável pelos valores. Error: {ex.Message}");
                 return new CurrencyDTO { CotacaoCompra = 0, CotacaoVenda = 0 };
             }
+            
                 
            
         }
@@ -87,18 +88,26 @@ namespace WindowsServiceCurrencyValue.Services
         public async Task<List<Currency>> GetAllCurenci()
         {
             var abbreviations = await GetCurrencyAbbreviations();
-
             var data = new List<Currency>();
 
-            foreach (AbbreviationDTO abbreviation in abbreviations)
+            if (abbreviations is null)
             {
-                CurrencyDTO currencyValues = await GetCurenci(abbreviation.Simbolo);
-                Currency currency = _mapper.Map<Currency>(abbreviation);
-                _mapper.Map(currencyValues, currency);
-                data.Add(currency);
+                return new List<Currency>() { };
             }
+            else
+            {
+                foreach (AbbreviationDTO abbreviation in abbreviations)
+                {
+                    CurrencyDTO currencyValues = await GetCurenci(abbreviation.Simbolo);
+                    Currency currency = _mapper.Map<Currency>(abbreviation);
+                    _mapper.Map(currencyValues, currency);
+                    data.Add(currency);
+                }
 
-            return data;
+                return data;
+
+            }
+           
         }
     }
 }

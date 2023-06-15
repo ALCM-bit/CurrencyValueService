@@ -13,12 +13,6 @@ namespace WindowsServiceCurrencyValue.Services
 {
     public class TxtMakerService : ITxtMaker
     {
-        private readonly IExecuteWithExceptionHandlingService _exceptionHandlingService;
-        public TxtMakerService(IExecuteWithExceptionHandlingService exceptionHandlingService) 
-        { 
-            _exceptionHandlingService = exceptionHandlingService;
-        
-        }
 
         public async Task WriteData(List<Currency> data)
         {
@@ -52,6 +46,34 @@ namespace WindowsServiceCurrencyValue.Services
                 Log.Error(ex, $"Problema ao gravar as Cotações. Error: {ex.Message}");
             }
            
+        }
+
+        public async Task WriteData()
+        {
+            try
+            {
+                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cotações");
+                DirectoryHelper.CreateDirectoryIfNotExists(path);
+                string filePath = Path.Combine(path, $"Cotação de {DateTime.Now.Date.ToShortDateString().Replace('/', '-')}.txt");
+
+                using (StreamWriter writer = new StreamWriter(filePath, false))
+                {
+                    await writer.WriteLineAsync("Ultima pesquisa: " + DateTime.Now.ToString());
+                    await writer.WriteLineAsync("-----------------------------------------------------------------------------");
+                    await writer.WriteLineAsync("A pesquisa não retornou nada. Isso pode acontecer caso: ");
+                    await writer.WriteLineAsync("1 - O computador está sem internet");
+                    await writer.WriteLineAsync("2 - Problema interno");
+                    await writer.WriteLineAsync("-----------------------------------------------------------------------------");
+                    await writer.WriteLineAsync("Recomenda-se aguardar um pouco e tentar reabrir o arquivo. " +
+                        "Caso o erro persista: Contate o Suporte");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"Problema ao gravar aviso de problema de acesso. Error: {ex.Message}");
+            }
+
         }
 
         public async Task WriteStopMessage()

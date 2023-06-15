@@ -105,12 +105,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurators\AutoMapperConfigurator.cs" />
     <Compile Include="Configurators\DependencyInjectionConfigurator.cs" />
     <Compile Include="Configurators\LogsConfigurator.cs" />
     <Compile Include="Dtos\AbbreviationDTO.cs" />
     <Compile Include="Dtos\CurrencyDTO.cs" />
     <Compile Include="Helpers\DirectoryHelper.cs" />
-    <Compile Include="Interfaces\Services\IExecuteWithExceptionHandlingService.cs" />
     <Compile Include="Interfaces\Services\IRequestCentralBankAPIService.cs" />
     <Compile Include="Interfaces\Services\ITxtMaker.cs" />
     <Compile Include="Models\Currency.cs" />
@@ -128,7 +128,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ExecuteWithExceptionHandlingService.cs" />
     <Compile Include="Services\RequestCentralBankAPIService.cs" />
     <Compile Include="Services\TxtMakerService.cs" />
   </ItemGroup>

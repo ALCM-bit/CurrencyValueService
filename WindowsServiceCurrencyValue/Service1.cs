@@ -48,7 +48,12 @@ namespace WindowsServiceCurrencyValue
         {
             Task.Run(async () => {
                 var data = await _apiService.GetAllCurenci();
-                await _maker.WriteData(data);
+
+                if (data.Count > 0)
+                    await _maker.WriteData(data);
+                else
+                    await _maker.WriteData();
+                
             });
             
         }
