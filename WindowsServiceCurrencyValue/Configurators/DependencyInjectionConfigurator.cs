@@ -19,6 +19,7 @@ namespace WindowsServiceCurrencyValue.Configurators
         {
             services.AddTransient<ITxtMaker, TxtMakerService>();
             services.AddTransient<IRequestCentralBankAPIService, RequestCentralBankAPIService>();
+            services.AddScoped<IExecuteWithExceptionHandlingService, ExecuteWithExceptionHandlingService>();
 
             // Configurar o AutoMapper
             var mapperConfiguration = new MapperConfiguration(cfg =>

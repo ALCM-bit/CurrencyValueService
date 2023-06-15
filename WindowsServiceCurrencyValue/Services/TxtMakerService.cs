@@ -13,10 +13,16 @@ namespace WindowsServiceCurrencyValue.Services
 {
     public class TxtMakerService : ITxtMaker
     {
+        private readonly IExecuteWithExceptionHandlingService _exceptionHandlingService;
+        public TxtMakerService(IExecuteWithExceptionHandlingService exceptionHandlingService) 
+        { 
+            _exceptionHandlingService = exceptionHandlingService;
+        
+        }
 
         public async Task WriteData(List<Currency> data)
         {
-            try
+            await _exceptionHandlingService.TxtMakerServiceExecuteWithExceptionHandling(async () =>
             {
                 string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cotações");
                 DirectoryHelper.CreateDirectoryIfNotExists(path);
@@ -39,28 +45,28 @@ namespace WindowsServiceCurrencyValue.Services
                         await writer.WriteLineAsync("");
                     }
                 }
-
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Erro ao gravar os dados no arquivo");
-            }
+            });
         }
 
         public async Task WriteStopMessage()
         {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "StopAlerts");
-            DirectoryHelper.CreateDirectoryIfNotExists(path);
-            string filePath = Path.Combine(path, $" Parada registrada {DateTime.Now.Date.ToShortDateString().Replace('/', '-')}.txt");
-            using (StreamWriter writer = new StreamWriter(filePath, false))
+            await _exceptionHandlingService.TxtMakerServiceExecuteWithExceptionHandling(async() =>
             {
-                await writer.WriteLineAsync("O serviço parou de funcionar" + DateTime.Now.ToString());
-                await writer.WriteLineAsync("-----------------------------------------------------------------");
-                await writer.WriteLineAsync("Caso não tenha sido parado por você, faça uma das seguintes opções:");
-                await writer.WriteLineAsync("1 - Reinicie o computador;");
-                await writer.WriteLineAsync("2 - Contate o suporte;");
-                await writer.WriteLineAsync("-----------------------------------------------------------------");
-            }
+                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "StopAlerts");
+                DirectoryHelper.CreateDirectoryIfNotExists(path);
+                string filePath = Path.Combine(path, $" Parada registrada {DateTime.Now.Date.ToShortDateString().Replace('/', '-')}.txt");
+                using (StreamWriter writer = new StreamWriter(filePath, false))
+                {
+                    await writer.WriteLineAsync("O serviço parou de funcionar" + DateTime.Now.ToString());
+                    await writer.WriteLineAsync("-----------------------------------------------------------------");
+                    await writer.WriteLineAsync("Caso não tenha sido parado por você, faça uma das seguintes opções:");
+                    await writer.WriteLineAsync("1 - Reinicie o computador;");
+                    await writer.WriteLineAsync("2 - Contate o suporte;");
+                    await writer.WriteLineAsync("-----------------------------------------------------------------");
+                }
+
+            });
+            
         }
     }
 }
