@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using WindowsServiceCurrencyValue.Interfaces.Services;
 using System.Timers;
 using System.IO;
+using AutoMapper;
+using WindowsServiceCurrencyValue.Models;
+using Serilog;
 
 namespace WindowsServiceCurrencyValue
 {
@@ -28,14 +31,10 @@ namespace WindowsServiceCurrencyValue
 
         protected override void OnStart(string[] args)
         {
-            Task.Run(async () =>
-            {
-                var data = await _apiService.GetAllCurenci();
-                await _maker.WriteData(data);
                 timer.Elapsed += new ElapsedEventHandler(OnElapsedTime);
                 timer.Interval = 7000; // número em milissegundos
                 timer.Enabled = true;
-            });
+            
         }
 
         protected override async void  OnStop()
@@ -49,8 +48,24 @@ namespace WindowsServiceCurrencyValue
         private void OnElapsedTime(object source, ElapsedEventArgs e)
         {
             Task.Run(async () => {
-                var data = await _apiService.GetAllCurenci();
-                await _maker.WriteData(data);
+
+                try
+                {
+                    var data = await _apiService.GetAllCurenci();
+
+                    if (data.Count > 0)
+                        await _maker.WriteData(data);
+                    else
+                        await _maker.WriteError();
+
+                }
+                catch (Exception ex)
+                {
+                    await _maker.WriteError();
+                    Log.Error(ex, $"Erro: {ex.Message}");
+                }
+               
+                
             });
             
         }

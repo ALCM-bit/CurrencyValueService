@@ -1,18 +1,30 @@
-﻿using Newtonsoft.Json;
+﻿using AutoMapper;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using WindowsServiceCurrencyValue.Dtos;
 using WindowsServiceCurrencyValue.Interfaces.Services;
 using WindowsServiceCurrencyValue.Models;
 
 namespace WindowsServiceCurrencyValue.Services
 {
-    public class RequestCentralBankAPIService: IRequestCentralBankAPIService
+    public class RequestCentralBankAPIService : IRequestCentralBankAPIService
     {
-        public async Task<DataFormat> GetCurenci(string currencyAbbreviation)
+        private readonly IMapper _mapper;
+        private readonly ITxtMaker _textMaker;
+        public RequestCentralBankAPIService(IMapper mapper, ITxtMaker maker)
+        {
+            _mapper = mapper;
+            _textMaker = maker;
+        }
+        public async Task<CurrencyDTO> GetCurenci(string currencyAbbreviation)
         {
 
             string currency = currencyAbbreviation;
@@ -23,19 +35,21 @@ namespace WindowsServiceCurrencyValue.Services
             var request = await client.GetAsync(uri);
             var content = await request.Content.ReadAsStringAsync();
 
-            var currencyData = JsonConvert.DeserializeObject<ResponseFormat>(content);
+            var jsonObject = JsonConvert.DeserializeObject<JObject>(content);
+            var currencyArray = jsonObject["value"].ToObject<List<CurrencyDTO>>();
 
-            if (currencyData.value.Count > 0)
+            if (currencyArray.Count > 0)
             {
-                return currencyData.value[0];
+                var firstCurrency = currencyArray[0];
+                return firstCurrency;
             }
             else
             {
-                return new DataFormat { cotacaoCompra = 0, cotacaoVenda = 0 };
+                return new CurrencyDTO { CotacaoCompra = 0, CotacaoVenda = 0 };
             }
-        }
 
-        public async Task<List<DataFormat>> GetCurrencyAbbreviations()
+        }
+        public async Task<List<AbbreviationDTO>> GetCurrencyAbbreviations()
         {
             string uri = "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas?$top=100&$format=json&$select=simbolo,nomeFormatado,tipoMoeda";
 
@@ -43,25 +57,40 @@ namespace WindowsServiceCurrencyValue.Services
             var response = await client.GetAsync(uri);
             var content = await response.Content.ReadAsStringAsync();
 
-            var currencyData = JsonConvert.DeserializeObject<ResponseFormat>(content);
-            var abbreviations = currencyData.value;
+            var jsonObject = JsonConvert.DeserializeObject<JObject>(content);
+            var abbreviations = jsonObject["value"].ToObject<List<AbbreviationDTO>>();
 
             return abbreviations;
         }
-        public async Task<List<DataFormat>> GetAllCurenci()
+
+
+
+
+
+
+        public async Task<List<Currency>> GetAllCurenci()
         {
-            var currencyData = await GetCurrencyAbbreviations();
+            var abbreviations = await GetCurrencyAbbreviations();
+            var data = new List<Currency>();
 
-
-            foreach (DataFormat abbreviation in currencyData)
+            if (abbreviations is null)
             {
-                DataFormat currencyValues = await GetCurenci(abbreviation.simbolo);
-                abbreviation.cotacaoCompra = currencyValues.cotacaoCompra;
-                abbreviation.cotacaoVenda = currencyValues.cotacaoVenda;
-                abbreviation.dataHoraCotacao = currencyValues.dataHoraCotacao;
+                return new List<Currency>() { };
+            }
+            else
+            {
+                foreach (AbbreviationDTO abbreviation in abbreviations)
+                {
+                    CurrencyDTO currencyValues = await GetCurenci(abbreviation.Simbolo);
+                    Currency currency = _mapper.Map<Currency>(abbreviation);
+                    _mapper.Map(currencyValues, currency);
+                    data.Add(currency);
+                }
+
+                return data;
+
             }
 
-            return currencyData;
         }
     }
 }

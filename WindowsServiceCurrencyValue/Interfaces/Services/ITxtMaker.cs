@@ -9,7 +9,8 @@ namespace WindowsServiceCurrencyValue.Interfaces.Services
 {
     public interface ITxtMaker
     {
-        Task WriteData(List<DataFormat> data);
+        Task WriteData(List<Currency> data);
+        Task WriteError();
         Task WriteStopMessage();
     }
 }

@@ -1,10 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
+using WindowsServiceCurrencyValue.Configurators;
 using WindowsServiceCurrencyValue.Interfaces.Services;
 using WindowsServiceCurrencyValue.Services;
 
@@ -18,7 +20,15 @@ namespace WindowsServiceCurrencyValue
         static void Main()
         {
             var services = new ServiceCollection();
-            ConfigureServices(services);
+
+            // Configurar os logs
+            LogsConfigurator.Configure(services);
+
+            // Configurar as dependências
+            DependencyInjectionConfigurator.Configure(services);
+
+            //Configurar AutoMapper
+            AutoMapperConfigurator.Configure(services);
 
             var serviceProvider = services.BuildServiceProvider();
 
@@ -29,17 +39,6 @@ namespace WindowsServiceCurrencyValue
             };
             ServiceBase.Run(ServicesToRun);
 
-        }
-        private static void ConfigureServices(IServiceCollection services)
-        {
-            services.AddTransient<ITxtMaker, TxtMakerService>();
-            services.AddTransient<IRequestCentralBankAPIService, RequestCentralBankAPIService>();
-            services.AddSingleton<Service1>(serviceProvider =>
-            {
-                var txtMaker = serviceProvider.GetRequiredService<ITxtMaker>();
-                var apiService = serviceProvider.GetRequiredService<IRequestCentralBankAPIService>();
-                return new Service1(txtMaker, apiService);
-            });
         }
     }
 }
