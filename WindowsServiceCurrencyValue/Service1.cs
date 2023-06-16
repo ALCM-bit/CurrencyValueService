@@ -12,6 +12,7 @@ using System.Timers;
 using System.IO;
 using AutoMapper;
 using WindowsServiceCurrencyValue.Models;
+using Serilog;
 
 namespace WindowsServiceCurrencyValue
 {
@@ -47,12 +48,23 @@ namespace WindowsServiceCurrencyValue
         private void OnElapsedTime(object source, ElapsedEventArgs e)
         {
             Task.Run(async () => {
-                var data = await _apiService.GetAllCurenci();
 
-                if (data.Count > 0)
-                    await _maker.WriteData(data);
-                else
-                    await _maker.WriteData();
+                try
+                {
+                    var data = await _apiService.GetAllCurenci();
+
+                    if (data.Count > 0)
+                        await _maker.WriteData(data);
+                    else
+                        await _maker.WriteError();
+
+                }
+                catch (Exception ex)
+                {
+                    await _maker.WriteError();
+                    Log.Error(ex, $"Erro: {ex.Message}");
+                }
+               
                 
             });
             
