@@ -13,14 +13,13 @@ namespace WindowsServiceCurrencyValue.Services
 {
     public class TxtMakerService : ITxtMaker
     {
+        //Caminho do arquivo para o usuário
+        string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cotações");
 
         public async Task WriteData(List<Currency> data)
         {
-
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cotações");
             DirectoryHelper.CreateDirectoryIfNotExists(path);
             string filePath = Path.Combine(path, $"Cotação de {DateTime.Now.Date.ToShortDateString().Replace('/', '-')}.txt");
-
             using (StreamWriter writer = new StreamWriter(filePath, false))
             {
                 string important = "Caso os valores apareçam como 0, significa que não há nenhuma atualização no dia de hoje." +
@@ -43,8 +42,6 @@ namespace WindowsServiceCurrencyValue.Services
 
         public async Task WriteError()
         {
-
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cotações");
             DirectoryHelper.CreateDirectoryIfNotExists(path);
             string filePath = Path.Combine(path, $"Cotação de {DateTime.Now.Date.ToShortDateString().Replace('/', '-')}.txt");
 
