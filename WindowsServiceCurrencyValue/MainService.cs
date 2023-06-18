@@ -16,13 +16,13 @@ using Serilog;
 
 namespace WindowsServiceCurrencyValue
 {
-    public partial class Service1 : ServiceBase
+    public partial class MainService : ServiceBase
     {
         Timer timer = new Timer();
-        private readonly ITxtMaker _maker;
+        private readonly ITxtService _maker;
         private readonly IRequestCentralBankAPIService _apiService;
 
-        public Service1(ITxtMaker maker, IRequestCentralBankAPIService apiService)
+        public MainService(ITxtService maker, IRequestCentralBankAPIService apiService)
         {
             _maker = maker;
             _apiService = apiService;
@@ -34,22 +34,15 @@ namespace WindowsServiceCurrencyValue
             timer.Elapsed += new ElapsedEventHandler(OnElapsedTime);
             timer.Interval = 7000; // número em milissegundos
             timer.Enabled = true;
-
         }
-
         protected override async void OnStop()
         {
-
             await _maker.WriteStopMessage();
-
-
         }
-
         private void OnElapsedTime(object source, ElapsedEventArgs e)
         {
             Task.Run(async () =>
             {
-
                 try
                 {
                     var data = await _apiService.GetAllCurenci();
@@ -60,10 +53,7 @@ namespace WindowsServiceCurrencyValue
                     await _maker.WriteError();
                     Log.Error(ex, $"Erro: {ex.Message}");
                 }
-
-
             });
-
         }
     }
 }

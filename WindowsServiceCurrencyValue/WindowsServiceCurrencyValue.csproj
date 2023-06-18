@@ -109,10 +109,10 @@
     <Compile Include="Configurators\DependencyInjectionConfigurator.cs" />
     <Compile Include="Configurators\LogsConfigurator.cs" />
     <Compile Include="Dtos\AbbreviationDTO.cs" />
-    <Compile Include="Dtos\CurrencyDTO.cs" />
+    <Compile Include="Dtos\ReportDTO.cs" />
     <Compile Include="Helpers\DirectoryHelper.cs" />
     <Compile Include="Interfaces\Services\IRequestCentralBankAPIService.cs" />
-    <Compile Include="Interfaces\Services\ITxtMaker.cs" />
+    <Compile Include="Interfaces\Services\ITxtService.cs" />
     <Compile Include="Models\Currency.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
@@ -120,16 +120,16 @@
     <Compile Include="ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
-    <Compile Include="Service1.cs">
+    <Compile Include="MainService.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Service1.Designer.cs">
-      <DependentUpon>Service1.cs</DependentUpon>
+    <Compile Include="MainService.Designer.cs">
+      <DependentUpon>MainService.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\RequestCentralBankAPIService.cs" />
-    <Compile Include="Services\TxtMakerService.cs" />
+    <Compile Include="Services\TxtService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

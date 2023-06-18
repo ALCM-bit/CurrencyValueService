@@ -7,7 +7,7 @@ using WindowsServiceCurrencyValue.Models;
 
 namespace WindowsServiceCurrencyValue.Interfaces.Services
 {
-    public interface ITxtMaker
+    public interface ITxtService
     {
         Task WriteData(List<Currency> data);
         Task WriteError();

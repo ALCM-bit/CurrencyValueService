@@ -17,15 +17,15 @@ namespace WindowsServiceCurrencyValue.Configurators
     {
         public static void Configure(IServiceCollection services)
         {
-            services.AddTransient<ITxtMaker, TxtMakerService>();
+            services.AddTransient<ITxtService, TxtService>();
             services.AddTransient<IRequestCentralBankAPIService, RequestCentralBankAPIService>();
             
 
-            services.AddSingleton<Service1>(serviceProvider =>
+            services.AddSingleton<MainService>(serviceProvider =>
             {
-                var txtMaker = serviceProvider.GetRequiredService<ITxtMaker>();
+                var txtMaker = serviceProvider.GetRequiredService<ITxtService>();
                 var apiService = serviceProvider.GetRequiredService<IRequestCentralBankAPIService>();
-                return new Service1(txtMaker, apiService);
+                return new MainService(txtMaker, apiService);
             });
         }
 

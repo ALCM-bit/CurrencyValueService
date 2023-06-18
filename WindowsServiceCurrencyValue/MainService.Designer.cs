@@ -1,6 +1,6 @@
 ﻿namespace WindowsServiceCurrencyValue
 {
-    partial class Service1
+    partial class MainService
     {
         /// <summary> 
         /// Variável de designer necessária.

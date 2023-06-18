@@ -11,7 +11,7 @@ using WindowsServiceCurrencyValue.Models;
 
 namespace WindowsServiceCurrencyValue.Services
 {
-    public class TxtMakerService : ITxtMaker
+    public class TxtService : ITxtService
     {
         //Caminho do arquivo para o usuário
         string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cotações");
@@ -58,10 +58,6 @@ namespace WindowsServiceCurrencyValue.Services
             }
 
         }
-
-
-
-
         public async Task WriteStopMessage()
         {
 

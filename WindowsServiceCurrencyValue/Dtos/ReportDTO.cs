@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WindowsServiceCurrencyValue.Dtos
 {
-    public class CurrencyDTO
+    public class ReportDTO
     {
         public double CotacaoCompra { get; set; }
         public double CotacaoVenda { get; set; }

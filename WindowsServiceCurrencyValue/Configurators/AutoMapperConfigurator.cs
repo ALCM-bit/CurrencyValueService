@@ -17,7 +17,7 @@ namespace WindowsServiceCurrencyValue.Configurators
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<AbbreviationDTO, Currency>().ReverseMap();
-                cfg.CreateMap<CurrencyDTO, Currency>().ReverseMap();
+                cfg.CreateMap<ReportDTO, Currency>().ReverseMap();
             });
             var mapper = mapperConfiguration.CreateMapper();
             services.AddSingleton(mapper);

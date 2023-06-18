@@ -35,7 +35,7 @@ namespace WindowsServiceCurrencyValue
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
-                serviceProvider.GetRequiredService<Service1>()
+                serviceProvider.GetRequiredService<MainService>()
             };
             ServiceBase.Run(ServicesToRun);
 

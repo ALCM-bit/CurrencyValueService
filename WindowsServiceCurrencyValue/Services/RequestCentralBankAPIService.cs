@@ -18,37 +18,13 @@ namespace WindowsServiceCurrencyValue.Services
     public class RequestCentralBankAPIService : IRequestCentralBankAPIService
     {
         private readonly IMapper _mapper;
-        private readonly ITxtMaker _textMaker;
-        public RequestCentralBankAPIService(IMapper mapper, ITxtMaker maker)
+        private readonly ITxtService _textMaker;
+        public RequestCentralBankAPIService(IMapper mapper, ITxtService maker)
         {
             _mapper = mapper;
             _textMaker = maker;
         }
-        public async Task<CurrencyDTO> GetCurenci(string currencyAbbreviation)
-        {
 
-            string currency = currencyAbbreviation;
-            string date = DateTime.Now.ToString("MM-dd-yyyy");
-            string uri = $"https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaDia(moeda=@moeda,dataCotacao=@dataCotacao)?@moeda='{currency}'&@dataCotacao='{date}'&$top=100&$orderby=dataHoraCotacao%20desc&$format=json&$select=cotacaoCompra,cotacaoVenda,dataHoraCotacao";
-
-            HttpClient client = new HttpClient();
-            var request = await client.GetAsync(uri);
-            var content = await request.Content.ReadAsStringAsync();
-
-            var jsonObject = JsonConvert.DeserializeObject<JObject>(content);
-            var currencyArray = jsonObject["value"].ToObject<List<CurrencyDTO>>();
-
-            if (currencyArray.Count > 0)
-            {
-                var firstCurrency = currencyArray[0];
-                return firstCurrency;
-            }
-            else
-            {
-                return new CurrencyDTO { CotacaoCompra = 0, CotacaoVenda = 0 };
-            }
-
-        }
         public async Task<List<AbbreviationDTO>> GetCurrencyAbbreviations()
         {
             string uri = "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas?$top=100&$format=json&$select=simbolo,nomeFormatado,tipoMoeda";
@@ -63,10 +39,29 @@ namespace WindowsServiceCurrencyValue.Services
             return abbreviations;
         }
 
+        public async Task<ReportDTO> GetCurrencyReportInformation(string currencyAbbreviation)
+        {
+            string abbreviation = currencyAbbreviation;
+            string date = DateTime.Now.ToString("MM-dd-yyyy");
+            string uri = $"https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaDia(moeda=@moeda,dataCotacao=@dataCotacao)?@moeda='{abbreviation}'&@dataCotacao='{date}'&$top=100&$orderby=dataHoraCotacao%20desc&$format=json&$select=cotacaoCompra,cotacaoVenda,dataHoraCotacao";
 
+            HttpClient client = new HttpClient();
+            var request = await client.GetAsync(uri);
+            var content = await request.Content.ReadAsStringAsync();
 
+            var jsonObject = JsonConvert.DeserializeObject<JObject>(content);
+            var currencyArray = jsonObject["value"].ToObject<List<ReportDTO>>();
 
-
+            if (currencyArray.Count > 0)
+            {
+                var firstCurrency = currencyArray[0];
+                return firstCurrency;
+            }
+            else
+            {
+                return new ReportDTO { CotacaoCompra = 0, CotacaoVenda = 0 };
+            }
+        }
 
         public async Task<List<Currency>> GetAllCurenci()
         {
@@ -81,16 +76,13 @@ namespace WindowsServiceCurrencyValue.Services
             {
                 foreach (AbbreviationDTO abbreviation in abbreviations)
                 {
-                    CurrencyDTO currencyValues = await GetCurenci(abbreviation.Simbolo);
+                    ReportDTO currencyValues = await GetCurrencyReportInformation(abbreviation.Simbolo);
                     Currency currency = _mapper.Map<Currency>(abbreviation);
                     _mapper.Map(currencyValues, currency);
                     data.Add(currency);
                 }
-
                 return data;
-
             }
-
         }
     }
 }
