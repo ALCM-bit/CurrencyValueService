@@ -35,9 +35,7 @@ namespace WindowsServiceCurrencyValue.Services
                     await writer.WriteLineAsync("");
                 }
             }
-
         }
-
         public async Task WriteError()
         {
             DirectoryHelper.CreateDirectoryIfNotExists(path);
@@ -54,7 +52,6 @@ namespace WindowsServiceCurrencyValue.Services
                 await writer.WriteLineAsync("Recomenda-se aguardar um pouco e tentar reabrir o arquivo. " +
                     "Caso o erro persista: Contate o Suporte");
             }
-
         }
         public async Task WriteStopMessage()
         {
@@ -71,10 +68,6 @@ namespace WindowsServiceCurrencyValue.Services
                 await writer.WriteLineAsync("2 - Contate o suporte;");
                 await writer.WriteLineAsync("-----------------------------------------------------------------");
             }
-
         }
-
-
-
     }
 }
