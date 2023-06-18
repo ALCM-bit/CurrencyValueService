@@ -1,14 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using WindowsServiceCurrencyValue.Dtos;
+﻿using Microsoft.Extensions.DependencyInjection;
 using WindowsServiceCurrencyValue.Interfaces.Services;
-using WindowsServiceCurrencyValue.Models;
 using WindowsServiceCurrencyValue.Services;
 
 namespace WindowsServiceCurrencyValue.Configurators
@@ -17,13 +8,13 @@ namespace WindowsServiceCurrencyValue.Configurators
     {
         public static void Configure(IServiceCollection services)
         {
-            services.AddTransient<ITxtService, TxtService>();
+            services.AddTransient<ITextService, TextService>();
             services.AddTransient<IRequestCentralBankAPIService, RequestCentralBankAPIService>();
             
 
             services.AddSingleton<MainService>(serviceProvider =>
             {
-                var txtMaker = serviceProvider.GetRequiredService<ITxtService>();
+                var txtMaker = serviceProvider.GetRequiredService<ITextService>();
                 var apiService = serviceProvider.GetRequiredService<IRequestCentralBankAPIService>();
                 return new MainService(txtMaker, apiService);
             });

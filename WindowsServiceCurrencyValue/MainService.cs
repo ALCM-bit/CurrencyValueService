@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
 using System.Threading.Tasks;
 using WindowsServiceCurrencyValue.Interfaces.Services;
 using System.Timers;
-using System.IO;
-using AutoMapper;
-using WindowsServiceCurrencyValue.Models;
 using Serilog;
 
 namespace WindowsServiceCurrencyValue
@@ -19,12 +10,12 @@ namespace WindowsServiceCurrencyValue
     public partial class MainService : ServiceBase
     {
         Timer timer = new Timer();
-        private readonly ITxtService _maker;
+        private readonly ITextService _textService;
         private readonly IRequestCentralBankAPIService _apiService;
 
-        public MainService(ITxtService maker, IRequestCentralBankAPIService apiService)
+        public MainService(ITextService textService, IRequestCentralBankAPIService apiService)
         {
-            _maker = maker;
+            _textService = textService;
             _apiService = apiService;
             InitializeComponent();
         }
@@ -37,7 +28,7 @@ namespace WindowsServiceCurrencyValue
         }
         protected override async void OnStop()
         {
-            await _maker.WriteStopMessage();
+            await _textService.WriteStopMessage();
         }
         private void OnElapsedTime(object source, ElapsedEventArgs e)
         {
@@ -45,12 +36,12 @@ namespace WindowsServiceCurrencyValue
             {
                 try
                 {
-                    var data = await _apiService.GetAllCurenci();
-                    await _maker.WriteData(data);
+                    var data = await _apiService.GetAllCurrencyData();
+                    await _textService.WriteData(data);
                 }
                 catch (Exception ex)
                 {
-                    await _maker.WriteError();
+                    await _textService.WriteError();
                     Log.Error(ex, $"Erro: {ex.Message}");
                 }
             });

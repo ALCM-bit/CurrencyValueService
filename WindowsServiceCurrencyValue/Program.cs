@@ -1,14 +1,8 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
 using WindowsServiceCurrencyValue.Configurators;
-using WindowsServiceCurrencyValue.Interfaces.Services;
-using WindowsServiceCurrencyValue.Services;
 
 namespace WindowsServiceCurrencyValue
 {

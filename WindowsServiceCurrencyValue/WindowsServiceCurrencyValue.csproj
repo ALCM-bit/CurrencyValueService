@@ -112,7 +112,7 @@
     <Compile Include="Dtos\ReportDTO.cs" />
     <Compile Include="Helpers\DirectoryHelper.cs" />
     <Compile Include="Interfaces\Services\IRequestCentralBankAPIService.cs" />
-    <Compile Include="Interfaces\Services\ITxtService.cs" />
+    <Compile Include="Interfaces\Services\ITextService.cs" />
     <Compile Include="Models\Currency.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
@@ -129,7 +129,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\RequestCentralBankAPIService.cs" />
-    <Compile Include="Services\TxtService.cs" />
+    <Compile Include="Services\TextService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WindowsServiceCurrencyValue.Helpers;
 using WindowsServiceCurrencyValue.Interfaces.Services;
@@ -11,7 +9,7 @@ using WindowsServiceCurrencyValue.Models;
 
 namespace WindowsServiceCurrencyValue.Services
 {
-    public class TxtService : ITxtService
+    public class TextService : ITextService
     {
         //Caminho do arquivo para o usuário
         string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cotações");
