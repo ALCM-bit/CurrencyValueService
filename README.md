@@ -23,9 +23,9 @@ O maior desafio foi aprender a criar, pela primeira vez, um Windows Service e co
 
 # Tecnologias Utilizadas
 
+- Linguagem C#
 - ASP.NET
 - .NET Framework
-- Linguagem C#
 - IDE Visual Studio
 - POO (Programação Orientada a Objetos)
 
