@@ -31,8 +31,9 @@ O maior desafio foi aprender a criar, pela primeira vez, um Windows Service e co
 
 # Autor
 
-![ProfilePicture](https://avatars.githubusercontent.com/u/72415750?s=400&u=a13b84ccdf5d94205f64ec86df036b60c66fff51&v=4)
-
+<h1 align="left">  
+    <img alt="ProfilePicture" title="#ProfilePicture" width=180px src="https://avatars.githubusercontent.com/u/72415750?s=400&u=a13b84ccdf5d94205f64ec86df036b60c66fff51&v=4" /> 
+</h1>
 [Felipe Augusto](https://github.com/ALCM-bit) &#128640;
 
 Feito por Felipe Augusto L. C. Magalhães - Desenvolvedor Full Stack.
