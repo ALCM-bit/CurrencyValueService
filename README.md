@@ -1,6 +1,6 @@
 <h1 align="center">Currency Value - Valor da Moeda</h1>
 
-<p align="center">Projeto: Windows service de cotação de moedas/p>
+<p align="center">Serviço de Cotação de Moedas com Windows Service</p>
 
 # Sumário
 
@@ -31,10 +31,8 @@ O maior desafio foi aprender a criar, pela primeira vez, um Windows Service e co
 
 # Autor
 
-<h1 align="left">  
-    <img alt="ProfilePicture" title="#ProfilePicture" width=180px src="https://avatars.githubusercontent.com/u/72415750?s=400&u=a13b84ccdf5d94205f64ec86df036b60c66fff51&v=4" /> 
-</h1>
-<p align="left">  
-    <a src="https://github.com/ALCM-bit" >Felipe Augusto</a> &#128640
-</p>
-Feito por Felipe Augusto L. C. Magalhães.
+![ProfilePicture](https://avatars.githubusercontent.com/u/72415750?s=400&u=a13b84ccdf5d94205f64ec86df036b60c66fff51&v=4)
+
+[Felipe Augusto](https://github.com/ALCM-bit) &#128640;
+
+Feito por Felipe Augusto L. C. Magalhães - Desenvolvedor Full Stack.
