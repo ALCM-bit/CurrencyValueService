@@ -31,7 +31,7 @@ O maior desafio foi aprender a criar, pela primeira vez, um Windows Service e co
 
 # Autor
 
-![ProfilePicture](https://avatars.githubusercontent.com/u/72415750?s=400&u=a13b84ccdf5d94205f64ec86df036b60c66fff51&v=4)
+![ProfilePicture](https://avatars.githubusercontent.com/u/72415750?s=400&u=a13b84ccdf5d94205f64ec86df036b60c66fff51&v=4 | width=180)
 
 [Felipe Augusto](https://github.com/ALCM-bit) &#128640;
 
