@@ -43,7 +43,7 @@
             this.serviceInstaller1.Description = "Serviço que utiliza a API do Banco central para apresentar a cotação de moedas " +
                 "de todo o dia em um arquivo txt";
             this.serviceInstaller1.DisplayName = "MXM_WindowsServiceCurrencyValue";
-            this.serviceInstaller1.ServiceName = "Service1";
+            this.serviceInstaller1.ServiceName = "WindowsServiceCurrencyValue";
             // 
             // ProjectInstaller
             // 

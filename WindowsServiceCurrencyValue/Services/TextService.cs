@@ -66,7 +66,7 @@ namespace WindowsServiceCurrencyValue.Services
             string filePath = Path.Combine(path, $" Parada registrada {DateTime.Now.Date.ToShortDateString().Replace('/', '-')}.txt");
             using (StreamWriter writer = new StreamWriter(filePath, false))
             {
-                await writer.WriteLineAsync("O serviço parou de funcionar" + DateTime.Now.ToString());
+                await writer.WriteLineAsync("O serviço parou de funcionar " + DateTime.Now.ToString());
                 await writer.WriteLineAsync("-----------------------------------------------------------------");
                 await writer.WriteLineAsync("Caso não tenha sido parado por você, faça uma das seguintes opções:");
                 await writer.WriteLineAsync("1 - Reinicie o serviço;");
