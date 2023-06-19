@@ -15,10 +15,10 @@ namespace WindowsServiceCurrencyValue
         {
             var services = new ServiceCollection();
 
-            // Configurar os logs
+            // Configurar o Serilog
             LogsConfigurator.Configure(services);
 
-            // Configurar as dependências
+            // Configurar a Injeção de dependências
             DependencyInjectionConfigurator.Configure(services);
 
             //Configurar AutoMapper
