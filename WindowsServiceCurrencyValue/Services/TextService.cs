@@ -14,6 +14,7 @@ namespace WindowsServiceCurrencyValue.Services
         //Caminho do arquivo para o usuário
         string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cotações");
 
+        //Responsável por escrever as informações em um arquivo texto para o usuário 
         public async Task WriteData(List<Currency> data)
         {
             DirectoryHelper.CreateDirectoryIfNotExists(path);
@@ -36,6 +37,8 @@ namespace WindowsServiceCurrencyValue.Services
                 }
             }
         }
+
+        //Escreve no txt do usuário a mensagem de erro.
         public async Task WriteError()
         {
             DirectoryHelper.CreateDirectoryIfNotExists(path);
@@ -53,6 +56,8 @@ namespace WindowsServiceCurrencyValue.Services
                     "Caso o erro persista: Contate o Suporte");
             }
         }
+
+        //Escreve uma mensagem em um arquivo txt separado, para monitoramento de parada apenas
         public async Task WriteStopMessage()
         {
 

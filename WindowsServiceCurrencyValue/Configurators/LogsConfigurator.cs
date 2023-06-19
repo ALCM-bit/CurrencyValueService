@@ -9,10 +9,11 @@ namespace WindowsServiceCurrencyValue.Configurators
 {
     public class LogsConfigurator
     {
+        //Configurações do Serilog
         public static void Configure(IServiceCollection services)
         {
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.File(AppDomain.CurrentDomain.BaseDirectory + $"Logs/Exceptions {DateTime.Now.Date.ToShortDateString().Replace('/', '-')}.txt", rollingInterval: RollingInterval.Day)
+                .WriteTo.File(AppDomain.CurrentDomain.BaseDirectory + $"Logs/Exceptions.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
             services.AddLogging(builder =>

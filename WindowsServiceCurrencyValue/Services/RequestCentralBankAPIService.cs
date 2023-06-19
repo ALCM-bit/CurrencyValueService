@@ -12,6 +12,7 @@ using WindowsServiceCurrencyValue.Models;
 
 namespace WindowsServiceCurrencyValue.Services
 {
+    //Classe responsável pelas requisições para a API
     public class RequestCentralBankAPIService : IRequestCentralBankAPIService
     {
         private readonly IMapper _mapper;
@@ -20,6 +21,7 @@ namespace WindowsServiceCurrencyValue.Services
             _mapper = mapper;
         }
 
+        //Faz a requisição para o endpoint que contem as abbreviações e retorna a lista com todas.
         public async Task<List<AbbreviationDTO>> GetCurrencyAbbreviations()
         {
             string uri = "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas?$top=100&$format=json&$select=simbolo,nomeFormatado,tipoMoeda";
@@ -34,6 +36,9 @@ namespace WindowsServiceCurrencyValue.Services
             return abbreviations;
         }
 
+        /*Faz a requisição para o endpoint com os valores de compra e venda das moedas monitoradas pelo Baco Central
+         * e retorna esses valores encontrados. Caso o retorno seja vazio, os valores são retornados como 0
+         */
         public async Task<ReportDTO> GetCurrencyReport(string currencyAbbreviation)
         {
             string abbreviation = currencyAbbreviation;
@@ -58,26 +63,22 @@ namespace WindowsServiceCurrencyValue.Services
             }
         }
 
+        /*Utiliza os metodos responsáveis pelas requisições para gerar a lista com as informações 
+         * desejadas pelo usuário.
+         */
         public async Task<List<Currency>> GetAllCurrencyData()
         {
             var abbreviations = await GetCurrencyAbbreviations();
             var data = new List<Currency>();
 
-            if (abbreviations is null)
+            foreach (AbbreviationDTO abbreviation in abbreviations)
             {
-                return new List<Currency>() { };
+                ReportDTO currencyValues = await GetCurrencyReport(abbreviation.Simbolo);
+                Currency currency = _mapper.Map<Currency>(abbreviation);
+                _mapper.Map(currencyValues, currency);
+                data.Add(currency);
             }
-            else
-            {
-                foreach (AbbreviationDTO abbreviation in abbreviations)
-                {
-                    ReportDTO currencyValues = await GetCurrencyReport(abbreviation.Simbolo);
-                    Currency currency = _mapper.Map<Currency>(abbreviation);
-                    _mapper.Map(currencyValues, currency);
-                    data.Add(currency);
-                }
-                return data;
-            }
+            return data;
         }
     }
 }

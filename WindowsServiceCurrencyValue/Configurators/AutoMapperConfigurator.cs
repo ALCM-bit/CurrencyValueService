@@ -8,6 +8,7 @@ namespace WindowsServiceCurrencyValue.Configurators
 {
     public class AutoMapperConfigurator
     {
+        //Configura o AutoMapper
         public static void Configure(IServiceCollection services)
         {
             var mapperConfiguration = new MapperConfiguration(cfg =>

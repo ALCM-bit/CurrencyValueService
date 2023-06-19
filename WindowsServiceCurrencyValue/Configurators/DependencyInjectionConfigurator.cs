@@ -6,6 +6,7 @@ namespace WindowsServiceCurrencyValue.Configurators
 {
     public class DependencyInjectionConfigurator
     {
+        //Configura as injeções de dependencia do projeto
         public static void Configure(IServiceCollection services)
         {
             services.AddTransient<ITextService, TextService>();
