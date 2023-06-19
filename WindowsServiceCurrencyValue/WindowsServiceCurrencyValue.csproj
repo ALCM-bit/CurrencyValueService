@@ -120,10 +120,10 @@
     <Compile Include="ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainService.cs">
+    <Compile Include="Services\MainService.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="MainService.Designer.cs">
+    <Compile Include="Services\MainService.Designer.cs">
       <DependentUpon>MainService.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
