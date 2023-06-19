@@ -8,6 +8,7 @@
 - [Desafios](#Desafios)
 - [Features](#Features)
 - [Tecnologias Utilizadas](#Tecnologias-Utilizadas)
+- [Instalação](#Instalação)
 - [Autora](#Autor)
 
 # Descrição
@@ -37,9 +38,23 @@ Durante o desenvolvimento do projeto, o maior desafio foi aprender a criar um Wi
 - IDE Visual Studio
 - POO (Programação Orientada a Objetos)
 
+# Instalação
+
+Abra o cmd e navegue até InstallUtil.exe em sua pasta .net; para o .net 4 é:
+
+```cs
+C:\Windows\Microsoft.NET\Framework\v4.0.30319
+```
+
+e use para instalar o serviço, passando o caminho do executável do projeto, exemplo:
+
+```cs
+InstallUtil.exe c:\program files\abc 123\myservice.exe
+```
+
 # Autor
 
-<img src="https://avatars.githubusercontent.com/u/72415750?v=4" alt="ProfilePicture" title="ProfilePicture" width="100px" height="100px" />
+<img src="https://avatars.githubusercontent.com/u/72415750?v=4" alt="ProfilePicture" title="ProfilePicture" width="200px" height="200px" />
 
 [Felipe Augusto](https://github.com/ALCM-bit) &#128640;
 
